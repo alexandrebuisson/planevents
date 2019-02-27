@@ -3,7 +3,7 @@
 ### Development stack
 - **React**
 - **Redux**
-- **Node.js**(Express)
+- **Node.js** (Express)
 
 ### Contributors
 - **Alexsouye** (Founder)
