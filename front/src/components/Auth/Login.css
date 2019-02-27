@@ -1,0 +1,35 @@
+.login-form {
+  max-width: 350px;
+  min-width: 275px;
+}
+.login-form-forgot {
+  float: center;
+  color: black;
+}
+
+.login-body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column; 
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1.3em;
+    border-radius: 10px;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.login-title {
+  color: black;
+}
+
+.login-register {
+  color: black;
+}
