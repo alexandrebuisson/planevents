@@ -5,5 +5,6 @@
 - **Redux**
 - **Node.js** (Express)
 
-### Contributors
+### Authors
 - **Alexsouye** (Founder)
+- **HN Team**
