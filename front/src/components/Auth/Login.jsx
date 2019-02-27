@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {
   Form, Icon, Input, Button
 } from 'antd';
+import { Link } from 'react-router-dom'
 import "./Login.css"
 
 class Login extends Component {
@@ -52,7 +53,7 @@ constructor(props) {
             <Button type="primary" htmlType="submit" className="login-form-button">
               Connexion
             </Button>
-            <a className="login-register" href="/inscription">S'inscrire !</a>
+            <Link className="login-register" to="/inscription">S'inscrire !</Link>
           </Form.Item>
         </Form>
       </div>

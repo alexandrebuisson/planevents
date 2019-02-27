@@ -5,7 +5,9 @@ const logger = require('morgan');
 const path = require('path');
 const cors = require('cors');
 
+// Routes
 const indexRouter = require('./routes/index');
+const signUp = require('./routes/Auth/signUp');
 
 const app = express();
 
@@ -18,6 +20,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/api/signup', signUp);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

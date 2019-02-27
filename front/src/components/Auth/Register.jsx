@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import {
   Form, Icon, Input, Button
 } from 'antd';
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { notifSuccess, notifError } from '../../actions/notifications';
+import { NotificationManager } from 'react-notifications';
 import "./Register.css"
 
 class Register extends Component {
@@ -17,7 +19,9 @@ constructor(props) {
     confirm_password: "",
   }
   this.handleChange = this.handleChange.bind(this);
-  // this.onSubmit = this.onSubmit.bind(this);
+  this.onSubmit = this.onSubmit.bind(this);
+  this.confirmInput = React.createRef();
+
 }
   handleChange(e) {
     this.setState({
@@ -26,25 +30,30 @@ constructor(props) {
   }
 
   onSubmit(e) {
+    const { name, mail, password, confirm_password } = this.state;
+    const { notifError, notifSuccess, history } = this.props;
     e.preventDefault();
-    const { notifError, notifSuccess } = this.props;
-    notifSuccess("Bravo champion redux est al");
-    // e.preventDefault();
-    //   fetch("http://localhost:4000/api/signup", {
-    //     method: 'POST',
-    //     headers: new Headers({
-    //       'Content-Type': 'application/json',
-    //     }),
-    //     body: JSON.stringify(this.state),
-    //   })
-    //   .then((res) => {
-    //     if (res.status === 500) {
-    //       notifError('Adresse email déjà enregistré');
-    //     }
-    //     if (res.status === 200) {
-    //       notifSuccess('Compte enregistré, vous pouvez vous connecter');
-    //     }
-    //   });
+    if(password !== confirm_password) {
+      notifError("Les mots de passe sont invalide !");
+      this.confirmInput.current.focus();
+    } else {
+      fetch("http://localhost:4000/api/signup", {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify(this.state),
+      })
+      .then((res) => {
+        if (res.status === 500) {
+          notifError('Adresse email déjà enregistré');
+        }
+        if (res.status === 200) {
+          notifSuccess('Compte enregistré, vous pouvez vous connecter');
+          history.push("/");
+        }
+      });
+    }
   }
 
   render() {
@@ -60,7 +69,7 @@ constructor(props) {
             })(
               <div>
                 <h2 className="register-title">Bienvenue sur PlanEvents</h2>
-                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} name="name" value={name} onChange={this.handleChange} placeholder="Nom" />
+                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} required name="name" value={name} onChange={this.handleChange} placeholder="Nom" />
               </div>
             )}
           </Form.Item>
@@ -69,7 +78,7 @@ constructor(props) {
               rules: [{ required: true, message: 'Merci de renseigner votre email !' }],
             })(
               <div>
-                <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} name="mail" value={mail} onChange={this.handleChange} type="email" placeholder="Mail" />
+                <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} required name="mail" value={mail} onChange={this.handleChange} type="email" placeholder="Mail" />
               </div>
             )}
           </Form.Item>
@@ -77,21 +86,21 @@ constructor(props) {
             {getFieldDecorator('password', {
               rules: [{ required: true, message: 'Merci de renseigner votre mot de passe !' }],
             })(
-              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} name="password" value={password} onChange={this.handleChange} type="password" placeholder="Mot de passe" />
+              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} minLength="8" required name="password" value={password} onChange={this.handleChange} type="password" placeholder="Mot de passe" />
             )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('confirm_password', {
               rules: [{ required: true, message: 'Merci de renseigner la confirmation de mot de passe !' }],
             })(
-              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} name="confirm_password" value={confirm_password} onChange={this.handleChange} type="password" placeholder="Confirmation du mot de passe" />
+              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} ref={this.confirmInput} minLength="8" required name="confirm_password" value={confirm_password} onChange={this.handleChange} type="password" placeholder="Confirmation du mot de passe" />
             )}
           </Form.Item>
           <Form.Item>
-            <Button onClick={this.onSubmit} type="primary" htmlType="submit" className="register-form-button">
+            <Button type="primary" htmlType="submit" className="register-form-button">
               Inscription
             </Button>
-            <a className="login-register" href="/">Déja un compte ?</a>
+            <Link className="login-register" to="/">Déja un compte ?</Link>
           </Form.Item>
         </Form>
       </div>
