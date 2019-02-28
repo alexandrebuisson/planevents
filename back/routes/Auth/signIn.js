@@ -2,14 +2,14 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-import { Strategy as LocalStrategy } from 'passport-local';
-import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
-import jwt from 'jsonwebtoken';
-import connection from '../config';
+const _passportLocal = require("passport-local");
+const _passportJwt = require("passport-jwt");
+const jwt = require('jsonwebtoken');
+const connection = require('../config');
 
 const router = express.Router();
 
-passport.use('local', new LocalStrategy({
+passport.use('local', new _passportLocal.Strategy({
   usernameField: 'mail',
   passwordField: 'password',
   session: false,
@@ -34,8 +34,8 @@ passport.use('local', new LocalStrategy({
   }
 }));
 
-passport.use(new JwtStrategy({
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+passport.use(new _passportJwt.Strategy({
+  jwtFromRequest: _passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: 'plan-events.bcryptpwd',
 }, (jwtPayload, cb) => cb(null, jwtPayload)
 ));
@@ -50,12 +50,12 @@ router.post('/', (req, res) => {
         .sendStatus(401);
     }
     const { password, ...user } = data;
-    const token = jwt.sign(user, process.env.SECRET);
-    connection.query('DELETE FROM public_token WHERE user = ?', user.mail, (error2) => {
+    const token = jwt.sign(user, 'plan-events.bcryptpwd');
+    connection.query('DELETE FROM check_token WHERE user = ?', user.mail, (error2) => {
       if (error2) {
         return res.sendStatus(500);
       }
-      connection.query('INSERT INTO public_token (token, user) VALUES (?, ?)', [token, user.mail], (error3) => {
+      connection.query('INSERT INTO check_token (token, user) VALUES (?, ?)', [token, user.mail], (error3) => {
         if (error3) {
           return res.sendStatus(500);
         }
@@ -65,4 +65,4 @@ router.post('/', (req, res) => {
   })(req, res);
 });
 
-export default router;
+module.exports = router;
