@@ -10,7 +10,7 @@ import PrivateRoute from './PrivateRoute';
 class App extends Component {
   render() {
     return (
-      <div className="login-background">
+      <div>
         <Switch>
           { /* Public routes */ }
           <Route exact path="/" component={Login}/>

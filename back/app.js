@@ -10,6 +10,7 @@ const indexRouter = require('./routes/index');
 const signUp = require('./routes/Auth/signUp');
 const signIn = require('./routes/Auth/signIn');
 const isConnected = require('./routes/Auth/isConnected');
+const createEvent = require('./routes/Events/createEvent');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/', indexRouter);
 app.use('/api/signup', signUp);
 app.use('/api/signin', signIn);
 app.use('/api/isconnected', isConnected);
+app.use('/api/create-event', createEvent);
 
 
 // catch 404 and forward to error handler

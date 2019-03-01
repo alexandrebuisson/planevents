@@ -69,33 +69,35 @@ constructor(props) {
     const { mail, password } = this.state;
     
     return (
-      <div className="login-body">
-        <Form onSubmit={this.onSubmit} className="login-form">
-          <Form.Item>
-            {getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Merci de renseigner votre email !' }],
-            })(
-              <div>
-                <h2 className="login-title">Bienvenue sur PlanEvents</h2>
-                <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} type="email" name="mail" value={mail} onChange={this.handleChange} placeholder="Email" />
-              </div>
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Merci de renseigner votre mot de passe !' }],
-            })(
-              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" name="password" value={password} onChange={this.handleChange} placeholder="Mot de passe" />
-            )}
-          </Form.Item>
-          <Form.Item>
-            <a className="login-form-forgot" href="/reset-password">Mot de passe oublié ?</a>
-            <Button type="primary" htmlType="submit" className="login-form-button">
-              Connexion
-            </Button>
-            <Link className="login-register" to="/register">S'inscrire !</Link>
-          </Form.Item>
-        </Form>
+      <div className="login-background">
+        <div className="login-body">
+          <Form onSubmit={this.onSubmit} className="login-form">
+            <Form.Item>
+              {getFieldDecorator('name', {
+                rules: [{ required: true, message: 'Merci de renseigner votre email !' }],
+              })(
+                <div>
+                  <h2 className="login-title">Bienvenue sur PlanEvents</h2>
+                  <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} type="email" name="mail" value={mail} onChange={this.handleChange} placeholder="Email" />
+                </div>
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('password', {
+                rules: [{ required: true, message: 'Merci de renseigner votre mot de passe !' }],
+              })(
+                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" name="password" value={password} onChange={this.handleChange} placeholder="Mot de passe" />
+              )}
+            </Form.Item>
+            <Form.Item>
+              <a className="login-form-forgot" href="/reset-password">Mot de passe oublié ?</a>
+              <Button type="primary" htmlType="submit" className="login-form-button">
+                Connexion
+              </Button>
+              <Link className="login-register" to="/register">S'inscrire !</Link>
+            </Form.Item>
+          </Form>
+        </div>
       </div>
     );
   }

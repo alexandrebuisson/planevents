@@ -61,48 +61,50 @@ constructor(props) {
     const { name, mail, password, confirm_password } = this.state;
     
     return (
-      <div className="register-body">
-        <Form onSubmit={this.onSubmit} className="register-form">
-          <Form.Item>
-            {getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Merci de renseigner votre Nom !' }],
-            })(
-              <div>
-                <h2 className="register-title">Bienvenue sur PlanEvents</h2>
-                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} required name="name" value={name} onChange={this.handleChange} placeholder="Nom" />
-              </div>
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('mail', {
-              rules: [{ required: true, message: 'Merci de renseigner votre email !' }],
-            })(
-              <div>
-                <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} required name="mail" value={mail} onChange={this.handleChange} type="email" placeholder="Mail" />
-              </div>
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Merci de renseigner votre mot de passe !' }],
-            })(
-              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} minLength="8" required name="password" value={password} onChange={this.handleChange} type="password" placeholder="Mot de passe" />
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('confirm_password', {
-              rules: [{ required: true, message: 'Merci de renseigner la confirmation de mot de passe !' }],
-            })(
-              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} ref={this.confirmInput} minLength="8" required name="confirm_password" value={confirm_password} onChange={this.handleChange} type="password" placeholder="Confirmation du mot de passe" />
-            )}
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="register-form-button">
-              Inscription
-            </Button>
-            <Link className="login-register" to="/">Déja un compte ?</Link>
-          </Form.Item>
-        </Form>
+      <div className="register-background">
+        <div className="register-body">
+          <Form onSubmit={this.onSubmit} className="register-form">
+            <Form.Item>
+              {getFieldDecorator('name', {
+                rules: [{ required: true, message: 'Merci de renseigner votre Nom !' }],
+              })(
+                <div>
+                  <h2 className="register-title">Bienvenue sur PlanEvents</h2>
+                  <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} required name="name" value={name} onChange={this.handleChange} placeholder="Nom" />
+                </div>
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('mail', {
+                rules: [{ required: true, message: 'Merci de renseigner votre email !' }],
+              })(
+                <div>
+                  <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} required name="mail" value={mail} onChange={this.handleChange} type="email" placeholder="Mail" />
+                </div>
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('password', {
+                rules: [{ required: true, message: 'Merci de renseigner votre mot de passe !' }],
+              })(
+                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} minLength="8" required name="password" value={password} onChange={this.handleChange} type="password" placeholder="Mot de passe" />
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('confirm_password', {
+                rules: [{ required: true, message: 'Merci de renseigner la confirmation de mot de passe !' }],
+              })(
+                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} ref={this.confirmInput} minLength="8" required name="confirm_password" value={confirm_password} onChange={this.handleChange} type="password" placeholder="Confirmation du mot de passe" />
+              )}
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" className="register-form-button">
+                Inscription
+              </Button>
+              <Link className="login-register" to="/">Déja un compte ?</Link>
+            </Form.Item>
+          </Form>
+        </div>
       </div>
     );
   }

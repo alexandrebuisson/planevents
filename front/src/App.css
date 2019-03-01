@@ -13,12 +13,6 @@
     border-radius: 10px;
 }
 
-.login-background {
-  background-image: url("/medias/bck-soiree3.jfif");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
-}
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;

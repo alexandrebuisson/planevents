@@ -18,6 +18,13 @@
     border-radius: 10px;
 }
 
+.register-background {
+  background-image: url("/medias/bck-soiree3.jfif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
 .register-form-button {
   width: 100%;
 }
