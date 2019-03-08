@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { notifSuccess, notifError } from '../../actions/notifications';
-import { NotificationManager } from 'react-notifications';
 import "./Register.css"
 
 class Register extends Component {
@@ -30,7 +29,7 @@ constructor(props) {
   }
 
   onSubmit(e) {
-    const { name, mail, password, confirm_password } = this.state;
+    const { password, confirm_password } = this.state;
     const { notifError, notifSuccess, history } = this.props;
     e.preventDefault();
     if(password !== confirm_password) {

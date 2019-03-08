@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import CheckToken from './CheckToken';
 import * as serviceWorker from './serviceWorker';
 import 'antd/dist/antd.css';
-import 'react-notifications/lib/notifications.css';
+import 'react-notifications/lib/notifications.css'; 
 
 const store = createStore(allReducers, applyMiddleware(thunk));
 

@@ -7269,6 +7269,11 @@ pkg-up@2.0.0:
   dependencies:
     find-up "^2.1.0"
 
+plant-eventsjs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/plant-eventsjs/-/plant-eventsjs-1.0.0.tgz#d76ee0f29f1b6e2faa69a0e30d5013dc90b6c2d7"
+  integrity sha512-F6/J6S3s2DkVmKAzW23rlMtjNmnXow/uW+pFUqbmIhuzpbHskEd1kowMiG3uvgNF1GBGPISLB9bPzQk3y01xgQ==
+
 pluralize@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"

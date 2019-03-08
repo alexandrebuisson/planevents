@@ -3,28 +3,22 @@ const connection = require('../config');
 
 const router = express.Router();
 
-router.put('/:usermail', (req, res) => {
-
+router.post('/:usermail', (req, res) => {
   const usermail = req.params.usermail;
+  const { collapsed, visible, data_events, ...formData } = req.body;
 
   connection.query('UPDATE users_app SET nb_events = nb_events + 1 WHERE mail = ?', usermail, err => {
-
     if (err) {
       console.log(err);
       res.sendStatus(500);
     } else {
-      res.sendStatus(200);
-    }
-  });
-});
-
-router.post('/', (req, res) => {
-  const { collapsed, visible, ...formData } = req.body;
-  connection.query('INSERT INTO users_events SET ?', formData, (err) => {
-    if (err) {
-      res.sendStatus(500);
-    } else {
-      res.sendStatus(200);
+      connection.query('INSERT INTO users_events SET ?', formData, (err) => {
+        if (err) {
+          res.sendStatus(500);
+        } else {
+          res.sendStatus(200);
+        }
+     });
     }
   });
 });

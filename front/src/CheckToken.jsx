@@ -38,7 +38,7 @@ class CheckToken extends Component {
     if (checked) {
       return children;
     }
-    return '';
+    return ''
   }
 }
 

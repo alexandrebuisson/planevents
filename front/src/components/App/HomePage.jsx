@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import {
-  Layout, Menu, Button, Icon, Modal, Input, Select, InputNumber,
+  Layout, Menu, Icon, Modal, Input, Card,
 } from 'antd';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { notifError, notifSuccess } from '../../actions/notifications';
+import Cookies from 'js-cookie';
+import { logout } from '../../actions/Auth';
+
+
 import "./HomePage.css";
 
 const {
-  Header, Content, Footer, Sider,
+  Content, Footer, Sider,
 } = Layout;
-const SubMenu = Menu.SubMenu;
-const { Option } = Select;
 
 
 class HomePage extends Component {
@@ -20,13 +24,24 @@ class HomePage extends Component {
     this.state = { 
       collapsed: false,
       visible: false,
-      mail: {mail},
-      event_name: "Création d'un event",
+      mail,
+      event_name: "",
       event_category: "",
       nb_guests: 2,
+      data_events: []
     }
     this.onChange = this.onChange.bind(this);
+    this.createEvent = this.createEvent.bind(this);
+    this.logout = this.logout.bind(this);
   }
+
+  componentDidMount() {
+    const { mail } = this.props;
+    fetch(`http://localhost:4000/api/get-events/${mail}`)
+      .then(results => results.json())
+      .then(data => this.setState({ data_events: data }));
+  }
+
 
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
@@ -44,8 +59,36 @@ class HomePage extends Component {
     });
   }
 
-  createEvent = () => {
-    
+  createEvent = (e) => {
+    e.preventDefault();
+    const {
+      mail, notifError
+    } = this.props;
+    fetch(`http://localhost:4000/api/create-event/${mail}`, {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify(this.state),
+    })
+      // eslint-disable-next-line consistent-return
+      .then((res) => {
+        if (res.status === 500) {
+          notifError('Erreur lors de la création...');
+        }
+        if (res.status === 200) {
+          fetch(`http://localhost:4000/api/get-events/${mail}`)
+            .then(results => results.json())
+            .then(data => this.setState({ data_events: data, visible: false }));
+        }
+      })
+  }
+
+  logout() {
+    const { logout, notifSuccess } = this.props;
+    logout();
+    Cookies.remove('token');
+    notifSuccess('Vous avez été déconnecté');
   }
 
   onChange(e) {
@@ -56,9 +99,8 @@ class HomePage extends Component {
 
 
   render() {
-    const { user, mail, date } = this.props;
-    const { collapsed, visible, event_name, event_category, nb_guests } = this.state;
-
+    const { collapsed, visible, event_name, event_category, nb_guests, data_events } = this.state;
+  
     return ( 
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
@@ -68,16 +110,20 @@ class HomePage extends Component {
         >
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
-              <Icon type="calendar" className="links"/>
+              <Icon type="calendar" />
               <span><Link to="/app" className="links">Mes évènements</Link></span>
             </Menu.Item>
             <Menu.Item key="2">
-              <Icon className="links" type="usergroup-add" />
+              <Icon type="usergroup-add" />
               <span><Link to="/join" className="links">Rejoindre vos amis</Link></span>
             </Menu.Item>
             <Menu.Item key="3">
-              <Icon type="user" className="links" />
+              <Icon type="user" />
               <span><Link to="my-account" className="links">Mon compte</Link></span>
+            </Menu.Item>
+            <Menu.Item key="4">
+              <Icon type="logout" />
+              <span onClick={this.logout}>Déconnexion</span>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -85,8 +131,17 @@ class HomePage extends Component {
           <Content style={{ margin: '0 16px' }}>
             <h1 style={{ textAlign: 'center' }}>Vos évènements</h1>
             <div onClick={this.handleOpen} className="float create-event">
-            <Icon className="my-float" type="plus" />
+              <Icon className="my-float" type="plus" />
             </div>
+            {
+              data_events.map(item => (
+                  <Card title={item.event_name} bordered={false} style={{ width: 300 }}>
+                    <p>{item.event_category}</p>
+                    <p>{item.nb_guests}</p>
+                  </Card>
+
+              ))
+            }
           </Content>
            <Modal
               title={event_name}
@@ -99,7 +154,7 @@ class HomePage extends Component {
             <Input name="nb_guests" value={nb_guests} onChange={this.onChange} />
            </Modal>
           <Footer style={{ textAlign: 'center' }}>
-            <img className="logo" src="/medias/app-logo.png" /> ©2019 Created by Alexsouye
+            <img alt="app logo" className="logo" src="/medias/app-logo.png" /> © 2019 Created by Alexsouye
           </Footer>
         </Layout>
       </Layout>
@@ -112,5 +167,8 @@ const mstp = state => ({
   mail: state.authReducer.user.mail,
   date: state.authReducer.user.createdAt,
 });
+
+const mdtp = dispatch => bindActionCreators({ logout, notifError, notifSuccess }, dispatch);
+
  
-export default connect(mstp)(HomePage);
+export default connect(mstp, mdtp)(HomePage);
