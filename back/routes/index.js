@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   connection.query('SELECT * FROM users_app', (err, results) => {
     if (err) {
-      res.status(500).send('Erreur lors de la récupération...');
+      res.status(500).send('Erreur lors de la récupération');
     } else {
       res.json(results);
     }

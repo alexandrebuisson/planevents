@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Layout, Menu, Icon, Modal, Input, Card,
+  Layout, Menu, Icon, Modal, Input, Card, Button
 } from 'antd';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { notifError, notifSuccess } from '../../actions/notifications';
 import Cookies from 'js-cookie';
 import { logout } from '../../actions/Auth';
+import Chance from "chance";
 
 
 import "./HomePage.css";
@@ -84,6 +85,20 @@ class HomePage extends Component {
       })
   }
 
+  deleteEvent(id) {
+    const { mail, notifError } = this.props;
+
+    fetch(`http://localhost:4000/api/delete-event/${id}/${mail}`, {
+      method: 'DELETE',
+    }).then((response) => {
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        notifError("Erreur lors de la suppression")
+      }
+    });
+  }
+
   logout() {
     const { logout, notifSuccess } = this.props;
     logout();
@@ -100,6 +115,11 @@ class HomePage extends Component {
 
   render() {
     const { collapsed, visible, event_name, event_category, nb_guests, data_events } = this.state;
+
+    const chance = new Chance();
+    const my_random_string = chance.string();
+    console.log(my_random_string);
+    
   
     return ( 
       <Layout style={{ minHeight: '100vh' }}>
@@ -119,7 +139,7 @@ class HomePage extends Component {
             </Menu.Item>
             <Menu.Item key="3">
               <Icon type="user" />
-              <span><Link to="my-account" className="links">Mon compte</Link></span>
+              <span><Link to="/my-account" className="links">Mon compte</Link></span>
             </Menu.Item>
             <Menu.Item key="4">
               <Icon type="logout" />
@@ -135,11 +155,14 @@ class HomePage extends Component {
             </div>
             {
               data_events.map(item => (
+                <div style={{ display: "flex" }}>
                   <Card title={item.event_name} bordered={false} style={{ width: 300 }}>
                     <p>{item.event_category}</p>
                     <p>{item.nb_guests}</p>
+                    <Button shape="circle" icon="arrows-alt" />
+                    <Button onClick={() => this.deleteEvent(item.id)} shape="circle" type="danger" icon="delete" />
                   </Card>
-
+                </div> 
               ))
             }
           </Content>

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.13.6",
+    "chance": "^1.0.18",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
     "plant-eventsjs": "^1.0.0",

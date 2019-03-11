@@ -12,6 +12,7 @@ const signIn = require('./routes/Auth/signIn');
 const isConnected = require('./routes/Auth/isConnected');
 const createEvent = require('./routes/Events/createEvent');
 const getEvent = require('./routes/Events/getEvents');
+const deleteEvent = require('./routes/Events/deleteEvent');
 
 const app = express();
 
@@ -28,7 +29,8 @@ app.use('/api/signup', signUp);
 app.use('/api/signin', signIn);
 app.use('/api/isconnected', isConnected);
 app.use('/api/create-event', createEvent);
-app.use('/api/get-events', getEvent)
+app.use('/api/get-events', getEvent);
+app.use('/api/delete-event', deleteEvent);
 
 
 // catch 404 and forward to error handler

@@ -3,17 +3,21 @@ const connection = require('../config');
 
 const router = express.Router();
 
-router.put('/:usermail', (req, res) => {
-
+router.delete('/:id/:usermail', (req, res) => {
+  const id = req.params.id;
   const usermail = req.params.usermail;
-
-  connection.query('UPDATE users_app SET nb_events = nb_events - 1 WHERE mail = ?', usermail, err => {
-
+  connection.query('DELETE FROM users_events WHERE id = ?', id, (err) => {
     if (err) {
-      console.log(err);
-      res.status(500).send("Erreur lors de la suppresion d'un event");
+      res.sendStatus(500);
     } else {
-      res.sendStatus(200);
+      connection.query('UPDATE users_app SET nb_events = nb_events - 1 WHERE mail = ?', usermail, err => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Erreur lors de la suppresion d'un event");
+        } else {
+          res.sendStatus(200);
+        }
+      });
     }
   });
 });

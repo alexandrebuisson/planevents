@@ -6,6 +6,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import HomePage from './components/App/HomePage';
 import PrivateRoute from './PrivateRoute';
+import MyAccount from './components/App/MyAccount';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
           
           { /* Private routes, only for registered users */ }
           <PrivateRoute path="/app" component={HomePage} />
+          <PrivateRoute path="/my-account" component={MyAccount} />
         </Switch>
         <NotificationContainer />
       </div>
